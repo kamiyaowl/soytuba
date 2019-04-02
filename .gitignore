@@ -42,3 +42,5 @@ Generated_Source
 !*.md
 !*.txt
 !*.docx
+
+soytuba/soytuba.cydsn/CortexM3/*
