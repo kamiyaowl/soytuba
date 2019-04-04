@@ -1,26 +1,13 @@
-/* ========================================
- *
- * Copyright YOUR COMPANY, THE YEAR
- * All Rights Reserved
- * UNPUBLISHED, LICENSED SOFTWARE.
- *
- * CONFIDENTIAL AND PROPRIETARY INFORMATION
- * WHICH IS THE PROPERTY OF your company.
- *
- * ========================================
-*/
 #include "project.h"
 
-int main(void)
-{
-    CyGlobalIntEnable; /* Enable global interrupts. */
+int main(void) {
+    CyGlobalIntEnable; 
 
-    /* Place your initialization/startup code here (e.g. MyInst_Start()) */
-
-    for(;;)
-    {
-        /* Place your application code here. */
+    for(;;) {
+        OnBoard_LED_Write(0x1);
+        CyDelay(1000);
+        OnBoard_LED_Write(0x0);
+        CyDelay(1000);
     }
 }
 
-/* [] END OF FILE */
