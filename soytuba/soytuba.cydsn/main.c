@@ -1,13 +1,15 @@
 #include "project.h"
+#include "ymf825.h"
 
 int main(void) {
+    ymf825_init();
+    ymf825_set_tone();
+    ymf825_set_ch();
+    
     CyGlobalIntEnable; 
 
     for(;;) {
-        OnBoard_LED_Write(0x1);
-        CyDelay(1000);
-        OnBoard_LED_Write(0x0);
-        CyDelay(1000);
+        ymf825_test();
     }
 }
 
