@@ -13,6 +13,5 @@ void shared_mem_init() {
     for(uint8_t i = 0 ; i < SHARED_MEM_PRESSURE_N ; ++i) {
         shared_mem.adc_pressure[i] = 0;
     }
-    
     shared_mem_dma_init();
 }

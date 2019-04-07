@@ -25,8 +25,10 @@ int main(void) {
     volatile uint16_t hoge;
     volatile uint16_t fuga;
     for(;;) {
-        hoge = ADC_SAR_GetResult16(0);
-        fuga = ADC_SAR_GetResult16(3);
+        debug_print_data("adc0", ADC_SAR_GetResult16(0));
+        debug_print_data("adc1", ADC_SAR_GetResult16(1));
+        debug_print_data("adc2", ADC_SAR_GetResult16(2));
+        debug_print_data("adc3", ADC_SAR_GetResult16(3));
         ymf825_test();
     }
 }
