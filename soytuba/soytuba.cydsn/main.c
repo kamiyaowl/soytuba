@@ -24,9 +24,10 @@ int main(void) {
     init();
     CyGlobalIntEnable; 
 
+    volatile uint16_t hoge;
     for(;;) {
+        hoge = ADC_SAR_PRESSURE_GetResult16(0);
         ymf825_test();
-        debug_update();
     }
 }
 
