@@ -256,6 +256,7 @@
       <Data key="4c60ee71-dae7-4ffd-9816-a6eb89ea281c" value="OnBoard_LED" />
       <Data key="8c6a4188-d19c-4dd1-9dcf-5094a18987db" value="AIN_PRESSURE_3" />
       <Data key="8d318d8b-cf7b-4b6b-b02c-ab1c5c49d0ba" value="OnBoard_SW" />
+      <Data key="9c728787-4ae5-4416-a232-1d108372b06f/dea208d9-07b0-438b-a5e0-ac5d207f2658/16a808f6-2e13-45b9-bce0-b001c8655113" value="ADC_SAR_PRESSURE_SAR_Bypass" />
       <Data key="13d13e00-db9a-4a9b-8a99-08719de1a294" value="SS_YMF825" />
       <Data key="34cfed22-c960-4363-8ecf-2f6fc0d15200" value="I2C_DEBUG" />
       <Data key="83b2fde2-60ad-45b6-9e5c-cb3baa6e3f9a" value="SCLK_YMF825" />
@@ -268,6 +269,7 @@
       <Data key="77715107-f8d5-47e5-a629-0fb83101ac6b" value="AIN_SLIDER" />
       <Data key="a22d04fd-b1c4-439b-b7ae-c0515f721cca" value="RX_DEBUG" />
       <Data key="ad142a33-354c-421a-8042-16d37d71ca2d" value="AIN_PRESSURE_1" />
+      <Data key="c760e057-ab5d-4ae5-80ef-e0f0ee2e4721/20681f4c-d171-47ae-a1cb-d832cd711191" value="ADC_SLIDER_Bypass_P03" />
       <Data key="ed092b9b-d398-4703-be89-cebf998501f6" value="MOSI_YMF825" />
       <Data key="fba52c8b-371d-41ef-974e-e292ac828d6f" value="LED_G" />
     </Group>
@@ -3381,6 +3383,11 @@
         <Data key="Port Format" value="2,2" />
       </Group>
     </Group>
+    <Group key="9c728787-4ae5-4416-a232-1d108372b06f/dea208d9-07b0-438b-a5e0-ac5d207f2658/16a808f6-2e13-45b9-bce0-b001c8655113">
+      <Group key="0">
+        <Data key="Port Format" value="0,4" />
+      </Group>
+    </Group>
     <Group key="13d13e00-db9a-4a9b-8a99-08719de1a294">
       <Group key="0">
         <Data key="Port Format" value="3,0" />
@@ -3442,6 +3449,11 @@
     <Group key="ad142a33-354c-421a-8042-16d37d71ca2d">
       <Group key="0">
         <Data key="Port Format" value="15,0" />
+      </Group>
+    </Group>
+    <Group key="c760e057-ab5d-4ae5-80ef-e0f0ee2e4721/20681f4c-d171-47ae-a1cb-d832cd711191">
+      <Group key="0">
+        <Data key="Port Format" value="0,3" />
       </Group>
     </Group>
     <Group key="ed092b9b-d398-4703-be89-cebf998501f6">

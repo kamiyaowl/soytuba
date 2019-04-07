@@ -25,8 +25,10 @@ int main(void) {
     CyGlobalIntEnable; 
 
     volatile uint16_t hoge;
+    volatile uint32_t fuga;
     for(;;) {
         hoge = ADC_SAR_PRESSURE_GetResult16(0);
+        fuga = ADC_SLIDER_GetResult32();
         ymf825_test();
     }
 }
