@@ -15,20 +15,18 @@ void init() {
     
     
     // TODO: Isolate other file
-    ADC_SLIDER_AMux_Start();
-    ADC_SLIDER_StartConvert();
-    ADC_SAR_PRESSURE_Start();
-    ADC_SAR_PRESSURE_StartConvert();
+    ADC_SAR_Start();
+    ADC_SAR_StartConvert();
  }
 int main(void) {
     init();
     CyGlobalIntEnable; 
 
     volatile uint16_t hoge;
-    volatile uint32_t fuga;
+    volatile uint16_t fuga;
     for(;;) {
-        hoge = ADC_SAR_PRESSURE_GetResult16(0);
-        fuga = ADC_SLIDER_GetResult32();
+        hoge = ADC_SAR_GetResult16(0);
+        fuga = ADC_SAR_GetResult16(3);
         ymf825_test();
     }
 }
