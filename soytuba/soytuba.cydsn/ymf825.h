@@ -1,3 +1,6 @@
+#ifndef YMF825_H
+#define YMF825_H
+
 #include "project.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -33,3 +36,5 @@ void ymf825_set_ch(void);
 void ymf825_keyon2(uint16_t fnum);
 void ymf825_keyoff(void);
 void ymf825_test();
+
+#endif
