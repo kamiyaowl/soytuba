@@ -6,6 +6,10 @@
 #define SHARED_MEM_PRESSURE_N (3)
 
 struct shared_mem_t {
+    // identify
+    uint32_t identify;
+    // for debug
+    uint32_t counter;
     // sensor value
     uint32_t adc_slider;
     uint32_t adc_pressure[SHARED_MEM_PRESSURE_N];

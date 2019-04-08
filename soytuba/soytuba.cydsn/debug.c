@@ -13,7 +13,7 @@ void debug_println(const char* str){
     UART_DEBUG_PutString(str);
     UART_DEBUG_PutString("\r\n");
 }
-void debug_print_data(const char* name, uint32_t data){
+void debug_print_hex(const char* name, uint32_t data){
     UART_DEBUG_PutString(name);
     UART_DEBUG_PutString(": 0x");
     
@@ -23,4 +23,8 @@ void debug_print_data(const char* name, uint32_t data){
         UART_DEBUG_PutChar(c);
     }
     UART_DEBUG_PutString("\r\n");
+}
+
+void debug_count(){
+    shared_mem.counter++;
 }
