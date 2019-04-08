@@ -1,7 +1,9 @@
+#include "project.h"
+#include "shared_mem.h"
+
 #ifndef BMI160_H
 #define BMI160_H
 
-#include "project.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // SPI porting
@@ -42,8 +44,9 @@ inline void bmi160_spi_init() {
 
 /////////////////////////////////////////////////////////////////////////////
 // Application
-// from https://github.com/yamaha-webmusic/bmi160board/blob/master/sample1/bmi160board_sample1/bmi160board_sample1.ino
+// https://www.mouser.com/ds/2/783/BST-BMI160-DS000-07-786474.pdf
 
 void bmi160_init();
+void bmi160_update();
 
 #endif
