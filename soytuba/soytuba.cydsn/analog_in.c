@@ -1,13 +1,12 @@
-/* ========================================
- *
- * Copyright YOUR COMPANY, THE YEAR
- * All Rights Reserved
- * UNPUBLISHED, LICENSED SOFTWARE.
- *
- * CONFIDENTIAL AND PROPRIETARY INFORMATION
- * WHICH IS THE PROPERTY OF your company.
- *
- * ========================================
-*/
+#include "analog_in.h"
 
-/* [] END OF FILE */
+void analog_in_init() {
+    ADC_SAR_Start();
+    ADC_SAR_StartConvert();
+}
+void analog_in_update() {
+    shared_mem.adc_slider = ADC_SAR_GetResult16(0);
+    shared_mem.adc_pressure[0] = ADC_SAR_GetResult16(1);
+    shared_mem.adc_pressure[1] = ADC_SAR_GetResult16(2);
+    shared_mem.adc_pressure[2] = ADC_SAR_GetResult16(3);
+}

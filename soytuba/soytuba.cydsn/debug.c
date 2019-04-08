@@ -24,7 +24,6 @@ void debug_print_hex(const char* name, uint32_t data){
     }
     UART_DEBUG_PutString("\r\n");
 }
-
 void debug_count(){
     shared_mem.counter++;
 }

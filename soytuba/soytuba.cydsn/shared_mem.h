@@ -7,14 +7,14 @@
 
 struct shared_mem_t {
     // identify
-    uint32_t identify;
+    uint16_t identify;
     // for debug
-    uint32_t counter;
+    uint16_t counter;
     // sensor value
-    uint32_t adc_slider;
-    uint32_t adc_pressure[SHARED_MEM_PRESSURE_N];
-    uint32_t acc[3];
-    uint32_t gyro[3];
+    uint16_t adc_slider;
+    uint16_t adc_pressure[SHARED_MEM_PRESSURE_N];
+    uint16_t acc[3];
+    uint16_t gyro[3];
     // calculated value
     
     //status
