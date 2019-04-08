@@ -256,7 +256,7 @@
       <Data key="4c60ee71-dae7-4ffd-9816-a6eb89ea281c" value="OnBoard_LED" />
       <Data key="8c6a4188-d19c-4dd1-9dcf-5094a18987db" value="AIN_PRESSURE_3" />
       <Data key="8d318d8b-cf7b-4b6b-b02c-ab1c5c49d0ba" value="OnBoard_SW" />
-      <Data key="9c728787-4ae5-4416-a232-1d108372b06f/dea208d9-07b0-438b-a5e0-ac5d207f2658/16a808f6-2e13-45b9-bce0-b001c8655113" value="ADC_SAR_PRESSURE_SAR_Bypass" />
+      <Data key="9c728787-4ae5-4416-a232-1d108372b06f/dea208d9-07b0-438b-a5e0-ac5d207f2658/16a808f6-2e13-45b9-bce0-b001c8655113" value="ADC_SAR_SAR_Bypass" />
       <Data key="13d13e00-db9a-4a9b-8a99-08719de1a294" value="SS_YMF825" />
       <Data key="34cfed22-c960-4363-8ecf-2f6fc0d15200" value="I2C_DEBUG" />
       <Data key="83b2fde2-60ad-45b6-9e5c-cb3baa6e3f9a" value="SCLK_YMF825" />
@@ -3418,12 +3418,12 @@
     </Group>
     <Group key="5053d39f-99d8-452c-a1ea-c3f17e495f93">
       <Group key="0">
-        <Data key="Port Format" value="2,5" />
+        <Data key="Port Format" value="1,7" />
       </Group>
     </Group>
     <Group key="9547e6f2-9661-44b0-a272-42769ba8631e">
       <Group key="0">
-        <Data key="Port Format" value="2,7" />
+        <Data key="Port Format" value="1,5" />
       </Group>
     </Group>
     <Group key="22863ebe-a37b-476f-b252-6e49a8c00b12">
@@ -3463,7 +3463,7 @@
     </Group>
     <Group key="fba52c8b-371d-41ef-974e-e292ac828d6f">
       <Group key="0">
-        <Data key="Port Format" value="2,6" />
+        <Data key="Port Format" value="1,6" />
       </Group>
     </Group>
     <Group key="UnAssigned Pins" />

@@ -15,6 +15,8 @@ struct shared_mem_t {
     uint16_t adc_pressure[SHARED_MEM_PRESSURE_N];
     uint16_t acc[3];
     uint16_t gyro[3];
+    // led
+    uint8_t led[3]; // r,g,b
     // calculated value
     
     //status

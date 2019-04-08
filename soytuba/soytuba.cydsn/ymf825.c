@@ -80,23 +80,23 @@ void ymf825_keyoff(void){
 
 void ymf825_test() {
   ymf825_keyon(0x14,0x65);
-  ymf825_delay(500);
+  ymf825_delay(100);
   ymf825_keyoff();
-  ymf825_delay(200);
+  ymf825_delay(100);
   ymf825_keyon(0x1c,0x11);
-  ymf825_delay(500);
+  ymf825_delay(100);
   ymf825_keyoff();
-  ymf825_delay(200);
+  ymf825_delay(100);
   ymf825_keyon(0x1c,0x42);
-  ymf825_delay(500);
+  ymf825_delay(100);
   ymf825_keyoff();
-  ymf825_delay(200);
+  ymf825_delay(100);
   ymf825_keyon(0x1c,0x5d);
-  ymf825_delay(500);
+  ymf825_delay(100);
   ymf825_keyoff();
-  ymf825_delay(200);
+  ymf825_delay(100);
   ymf825_keyon(0x24,0x17);
-  ymf825_delay(500);
+  ymf825_delay(100);
   ymf825_keyoff();
-  ymf825_delay(200);
+  ymf825_delay(100);
 }
