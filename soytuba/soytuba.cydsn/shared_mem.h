@@ -6,6 +6,8 @@
 #define SHARED_MEM_PRESSURE_N (3)
 
 struct shared_mem_t {
+    uint16_t acc[3];
+    uint16_t gyro[3];
     // identify
     uint16_t identify;
     // for debug
@@ -13,8 +15,6 @@ struct shared_mem_t {
     // sensor value
     uint16_t adc_slider;
     uint16_t adc_pressure[SHARED_MEM_PRESSURE_N];
-    uint16_t acc[3];
-    uint16_t gyro[3];
     // led
     uint8_t led[3]; // r,g,b
     // calculated value

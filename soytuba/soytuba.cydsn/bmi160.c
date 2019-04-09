@@ -21,7 +21,8 @@ void bmi160_init(){
 }
 
 void bmi160_update() {
-    uint8_t write_buf[13] = { 0x0c }; // 0x0c: GYR_X[7:0], 0x0d: GYRO_X[15:8]...
+    // uint8_t write_buf[13] = { 0x0c }; // 0x0c: GYR_X[7:0], 0x0d: GYRO_X[15:8]...
+    uint8_t write_buf[13] = { 0x12, 0x34, 0x56, 0x78, 0x9a, 0xbc, 0xde, 0xf0, 0xa5, 0x5a, 0x3c, 0xc3 }; // 0x0c: GYR_X[7:0], 0x0d: GYRO_X[15:8]...
     uint8_t read_buf[13] = {}; // 先頭はダミーが入る
     
     bmi160_spi_transfer(write_buf, read_buf, 13);

@@ -8,7 +8,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // SPI porting
 inline void bmi160_spi_cs(uint8_t assert) {
-    REG_SS_YM825_Write(assert ? 0x0 : 0x1);
+    REG_SS_BMI160_Write(assert ? 0x0 : 0x1);
 }
 inline void bmi160_delay(uint32_t ms){
     CyDelay(ms);
@@ -25,11 +25,11 @@ inline void bmi160_spi_transfer(const uint8_t* tx_data, uint8_t* rx_data, uint8_
     bmi160_spi_cs(0x1);
     for(uint32_t i = 0 ; i < length ; ++i) {
         SPIM_BMI160_WriteTxData(tx_data[i]);
+        bmi160_spi_wait_done();
         uint8_t rx = SPIM_BMI160_ReadRxData();
         if (rx_data != NULL) {
             rx_data[i] = rx;
         }
-        bmi160_spi_wait_done();
     }
     bmi160_spi_cs(0x0);
 }
