@@ -32,19 +32,50 @@ void ymf825_init(void) {
 }
 
 void ymf825_set_tone(void){
-  unsigned char tone_data[36] ={
-    // write addr
-    0x07,
-    // tone data
-    0x81,//header
-    //T_ADR 0
-    0x01,0x85,
-    0x00,0x7F,0xF4,0xBB,0x00,0x10,0x40,
-    0x00,0xAF,0xA0,0x0E,0x03,0x10,0x40,
-    0x00,0x2F,0xF3,0x9B,0x00,0x20,0x41,
-    0x00,0xAF,0xA0,0x0E,0x01,0x10,0x40,
-    0x80,0x03,0x81,0x80,
-  };
+    // https://kanpapa.com/today/2017/08/ymf825-fm-board.html
+    unsigned char tone_data[36] ={
+        // write addr
+        0x07,
+        // tone data
+        0x81,//header
+        // T_ADR 0
+        // Entire Tone Setting
+        0x01, // BO (Basic Octave)
+        0x43, // LFO,ALG
+        //Operator1 Setting 
+        0x00, // SR, XOF, KSR
+        0xE7, // RR, DR
+        0xFF, // AR, SL
+        0x9D, // TL, KSL
+        0x00, // DAM(amplitude modulation depth), EAM(enable amplitude modulation), DVB(vibrato depth), EVB(enable vibrato)
+        0x10, // MULTI(magnification of frequency), DT(detune)
+        0x40, // WS(wave shape), FB(FM feedback level)
+        // Operator2 Setting
+        0x20, // SR, XOF, KSR
+        0x33, // RR, DR
+        0xE2, // AR, SL
+        0x73, // TL, KSL
+        0x00, // DAM(amplitude modulation depth), EAM(enable amplitude modulation), DVB(vibrato depth), EVB(enable vibrato)
+        0x50, // MULTI(magnification of frequency), DT(detune)
+        0x40, // WS(wave shape), FB(FM feedback level)
+        // Operator3 Setting
+        0x10, // SR, XOF, KSR
+        0x41, // RR, DR
+        0xD3, // AR, SL
+        0x5B, // TL, KSL
+        0x00, // DAM(amplitude modulation depth), EAM(enable amplitude modulation), DVB(vibrato depth), EVB(enable vibrato)
+        0x10, // MULTI(magnification of frequency), DT(detune)
+        0x41, // WS(wave shape), FB(FM feedback level)
+        // Operator4 Setting
+        0x20, // SR, XOF, KSR
+        0x63, // RR, DR
+        0xD4, // AR, SL
+        0x02, // TL, KSL
+        0x01, // DAM(amplitude modulation depth), EAM(enable amplitude modulation), DVB(vibrato depth), EVB(enable vibrato)
+        0x10, // MULTI(magnification of frequency), DT(detune)
+        0x40, // WS(wave shape), FB(FM feedback level)
+        0x80,0x03,0x81,0x80, // End(80H,03H,81H,80H)
+    };
   
    ymf825_spi_write_reg( 0x08, 0xF6 );
    ymf825_delay(1);
