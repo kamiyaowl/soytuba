@@ -21,12 +21,6 @@ void bmi160_init(){
 }
 
 void bmi160_update() {
-    uint8_t write_buf1[2] = { 0x00 | 0x80 }; // 0x0c: GYR_X[7:0], 0x0d: GYRO_X[15:8]...
-    uint8_t read_buf1[2] = {}; // 先頭はダミーが入る
-
-    bmi160_spi_transfer(write_buf1, read_buf1, 2);
-    shared_mem.id = read_buf1[1];
-    
     // read cmdは最初のアドレスバイトの先頭を立てる
     uint8_t write_buf[13] = { 0x0c | 0x80 }; // 0x0c: GYR_X[7:0], 0x0d: GYRO_X[15:8]...
     uint8_t read_buf[13] = {}; // 先頭はダミーが入る

@@ -6,8 +6,6 @@
 #define SHARED_MEM_PRESSURE_N (3)
 
 struct shared_mem_t {
-    uint8_t id;// imu chipid(debug)
-    
     uint16_t acc[3];
     uint16_t gyro[3];
     // identify
