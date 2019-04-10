@@ -41,39 +41,39 @@ void ymf825_set_tone(void){
         // T_ADR 0
         // Entire Tone Setting
         0x01, // BO (Basic Octave)
-        0x43, // LFO,ALG
+        0x67, // LFO,ALG
         //Operator1 Setting 
         0x00, // SR, XOF, KSR
-        0xE7, // RR, DR
-        0xFF, // AR, SL
+        0xE9, // RR, DR
+        0x91, // AR, SL
         0x9D, // TL, KSL
         0x00, // DAM(amplitude modulation depth), EAM(enable amplitude modulation), DVB(vibrato depth), EVB(enable vibrato)
         0x10, // MULTI(magnification of frequency), DT(detune)
         0x40, // WS(wave shape), FB(FM feedback level)
         // Operator2 Setting
         0x20, // SR, XOF, KSR
-        0x33, // RR, DR
-        0xE2, // AR, SL
+        0x3b, // RR, DR
+        0x91, // AR, SL
         0x73, // TL, KSL
         0x00, // DAM(amplitude modulation depth), EAM(enable amplitude modulation), DVB(vibrato depth), EVB(enable vibrato)
         0x50, // MULTI(magnification of frequency), DT(detune)
         0x40, // WS(wave shape), FB(FM feedback level)
         // Operator3 Setting
         0x10, // SR, XOF, KSR
-        0x41, // RR, DR
-        0xD3, // AR, SL
+        0x4b, // RR, DR
+        0xa1, // AR, SL
         0x5B, // TL, KSL
         0x00, // DAM(amplitude modulation depth), EAM(enable amplitude modulation), DVB(vibrato depth), EVB(enable vibrato)
         0x10, // MULTI(magnification of frequency), DT(detune)
         0x41, // WS(wave shape), FB(FM feedback level)
         // Operator4 Setting
         0x20, // SR, XOF, KSR
-        0x63, // RR, DR
-        0xD4, // AR, SL
+        0x6b, // RR, DR
+        0xb1, // AR, SL
         0x02, // TL, KSL
         0x01, // DAM(amplitude modulation depth), EAM(enable amplitude modulation), DVB(vibrato depth), EVB(enable vibrato)
         0x10, // MULTI(magnification of frequency), DT(detune)
-        0x40, // WS(wave shape), FB(FM feedback level)
+        0x80, // WS(wave shape), FB(FM feedback level)
         0x80,0x03,0x81,0x80, // End(80H,03H,81H,80H)
     };
   
@@ -109,7 +109,9 @@ void ymf825_keyoff(void){
 }
 
 
-void ymf825_test() {
+void ymf825_update() {
+    // TODO: sound_updateがshared_memに書いた値を使って音を鳴らす
+    // TEST
   ymf825_keyon(0x14,0x65);
   ymf825_delay(100);
   ymf825_keyoff();
@@ -128,6 +130,12 @@ void ymf825_test() {
   ymf825_delay(100);
   ymf825_keyon(0x24,0x17);
   ymf825_delay(100);
+  ymf825_keyoff();
+  ymf825_delay(100);
+  ymf825_keyon(0x24,0x17);
+  ymf825_delay(500);
+  ymf825_keyon(0x14,0x65);
+  ymf825_delay(500);
   ymf825_keyoff();
   ymf825_delay(100);
 }

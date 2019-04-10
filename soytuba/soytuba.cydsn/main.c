@@ -6,6 +6,7 @@
 #include "analog_in.h"
 #include "led.h"
 #include "bmi160.h"
+#include "sound.h"
 
 void init() {
     shared_mem_init();
@@ -13,6 +14,7 @@ void init() {
     analog_in_init();
     led_init();
     bmi160_init();
+    sound_init();
     
     // TODO: YMF825の音色調整、切り替え
     ymf825_init();
@@ -30,7 +32,8 @@ int main(void) {
         analog_in_update();
         led_update();
         bmi160_update();
-        ymf825_test();
+        sound_update();
+        ymf825_update(); // sound_updateで来たメッセージを音にして処理
         
         // test
         debug_print_hex("slider", shared_mem.adc_slider);

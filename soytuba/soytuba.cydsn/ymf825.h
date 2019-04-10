@@ -30,11 +30,12 @@ inline void ymf825_spi_init() {
 // Application
 // from https://github.com/yamaha-webmusic/ymf825board/blob/master/sample1/ymf825board_sample1/ymf825board_sample1.ino
 
-void ymf825_init();
 void ymf825_set_tone(void);
 void ymf825_set_ch(void);
 void ymf825_keyon2(uint16_t fnum);
 void ymf825_keyoff(void);
-void ymf825_test();
+
+void ymf825_init();
+void ymf825_update();
 
 #endif
