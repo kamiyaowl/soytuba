@@ -27,11 +27,18 @@ void bmi160_update() {
     
     bmi160_spi_transfer(write_buf, read_buf, 13);
     
-    shared_mem.gyro[0] = (read_buf[1] & 0xff) | ((uint16_t)read_buf[2] << 8);
-    shared_mem.gyro[1] = (read_buf[3] & 0xff) | ((uint16_t)read_buf[4] << 8);
-    shared_mem.gyro[2] = (read_buf[5] & 0xff) | ((uint16_t)read_buf[6] << 8);
+    // 軸反転対応もここで得やる
+    int16_t raw_gyro_x = (read_buf[1] & 0xff) | ((uint16_t)read_buf[2] << 8);
+    int16_t raw_gyro_y = (read_buf[3] & 0xff) | ((uint16_t)read_buf[4] << 8);
+    int16_t raw_gyro_z = (read_buf[5] & 0xff) | ((uint16_t)read_buf[6] << 8);
+    shared_mem.gyro[0] = -raw_gyro_y; // 右に傾けると+
+    shared_mem.gyro[1] = -raw_gyro_x; // 前に傾けると+
+    shared_mem.gyro[2] = raw_gyro_z; // 時計回りで+
     
-    shared_mem.acc[0] = (read_buf[7]  & 0xff) | ((uint16_t)read_buf[8]  << 8);
-    shared_mem.acc[1] = (read_buf[9]  & 0xff) | ((uint16_t)read_buf[10] << 8);
-    shared_mem.acc[2] = (read_buf[11] & 0xff) | ((uint16_t)read_buf[12] << 8);
+    int16_t raw_acc_x = (read_buf[7]  & 0xff) | ((uint16_t)read_buf[8]  << 8);
+    int16_t raw_acc_y = (read_buf[9]  & 0xff) | ((uint16_t)read_buf[10] << 8);
+    int16_t raw_acc_z = (read_buf[11] & 0xff) | ((uint16_t)read_buf[12] << 8);
+    shared_mem.acc[0] = -raw_acc_x;// 右に傾けると+
+    shared_mem.acc[1] = raw_acc_y; // 前に傾けると+
+    shared_mem.acc[2] = -raw_acc_z; // 何もしなくても+1G
 }
