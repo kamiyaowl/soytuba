@@ -1,7 +1,7 @@
 #ifndef SHARED_MEM_H
 #define SHARED_MEM_H
 
-#include "project.h"
+#include <stdint.h>
     
 #define SHARED_MEM_PRESSURE_N (3)
 

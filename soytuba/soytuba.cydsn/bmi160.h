@@ -1,9 +1,8 @@
-#include "project.h"
-#include "shared_mem.h"
-
 #ifndef BMI160_H
 #define BMI160_H
 
+#include "project.h"
+#include "shared_mem.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // SPI porting
