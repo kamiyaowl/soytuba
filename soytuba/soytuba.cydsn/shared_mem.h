@@ -20,7 +20,7 @@ typedef struct tag_shared_mem_t {
     // for debug
     uint16_t counter;
     // calculated value
-    
+    queue_type_t sound_queue;
     //status
 } shared_mem_t;
 volatile shared_mem_t shared_mem;

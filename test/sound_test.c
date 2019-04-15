@@ -10,7 +10,5 @@ void initialize() {
 }
 int main(void) {
     initialize();
-
-    printf("test\n");
     return 0;
 }
