@@ -2,13 +2,9 @@
 #define SHARED_MEM_H
 
 #include <stdint.h>
-#include <queue.h>
+#include "queue.h"
 
 #define SHARED_MEM_PRESSURE_N (3)
-
-typedef struct tag_sound_control_t {
-    queue_type_t command_queue;
-} sound_control_t;
 
 typedef struct tag_shared_mem_t {
     // identify

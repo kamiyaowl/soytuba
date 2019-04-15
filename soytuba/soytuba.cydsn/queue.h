@@ -2,6 +2,7 @@
 #define QUEUE_H
 
 #include <stdint.h>
+#include "sound.h"
 
 #define QUEUE_SIZE_N (16)
 
