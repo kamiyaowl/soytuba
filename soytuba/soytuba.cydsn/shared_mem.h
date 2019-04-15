@@ -2,10 +2,15 @@
 #define SHARED_MEM_H
 
 #include <stdint.h>
-    
+#include <queue.h>
+
 #define SHARED_MEM_PRESSURE_N (3)
 
-struct shared_mem_t {
+typedef struct tag_sound_control_t {
+    queue_type_t command_queue;
+} sound_control_t;
+
+typedef struct tag_shared_mem_t {
     // identify
     uint16_t identify;
     // imu
@@ -21,8 +26,8 @@ struct shared_mem_t {
     // calculated value
     
     //status
-};
-volatile struct shared_mem_t shared_mem;
+} shared_mem_t;
+volatile shared_mem_t shared_mem;
 
 void shared_mem_dma_init();
 void shared_mem_init();
