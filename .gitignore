@@ -44,3 +44,7 @@ Generated_Source
 !*.docx
 
 soytuba/soytuba.cydsn/CortexM3/*
+
+# vscode
+*.o
+.vscode/ipch
