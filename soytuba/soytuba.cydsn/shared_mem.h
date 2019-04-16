@@ -2,9 +2,19 @@
 #define SHARED_MEM_H
 
 #include <stdint.h>
+#include "sound.h"
 #include "queue.h"
 
 #define SHARED_MEM_PRESSURE_N (3)
+
+
+typedef struct tag_sound_setting_t {
+    // スライダの無効領域 12bit
+    uint16_t slider_low_limit;
+    uint16_t slider_high_limit; 
+
+} sound_setting_t; 
+
 
 typedef struct tag_shared_mem_t {
     // identify
@@ -19,9 +29,13 @@ typedef struct tag_shared_mem_t {
     uint8_t led[3]; // r,g,b 設定した分だけ光るが非線形な補正をしていないので0x00~0x10でほぼ飽和すると思っていい
     // for debug
     uint16_t counter;
-    // calculated value
-    queue_type_t sound_queue;
+
+    // sound calculated value
+    sound_setting_t sound_setting; // 各種設定
+
     //status
+
+
 } shared_mem_t;
 volatile shared_mem_t shared_mem;
 

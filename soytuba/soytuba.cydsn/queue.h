@@ -9,7 +9,7 @@ typedef enum enum_sound_status {
     KeyOff, KeyOn, Mute,
 } sound_status;
 
-typedef struct tag_sound_control_t {
+typedef struct tag_sound_command_t {
     sound_status keyon; // 音を鳴らすかどうか
     uint16_t vovol; // 音声設定
     uint8_t  block; // オクターブ選択
@@ -17,10 +17,9 @@ typedef struct tag_sound_control_t {
     uint8_t vol; // 音量 4bit
     uint8_t vibrato; // ビブラード(DVB) 3bit
     uint8_t interpolation; // 途中を補完するか 0=enable(default)
-} sound_control_t;
+} sound_command_t;
 
-
-typedef sound_control_t queue_type_t; // c言語残念すぎでは
+typedef sound_command_t queue_type_t; // c言語残念すぎでは
 
 void queue_init();
 uint8_t queue_enqueue(queue_type_t data);

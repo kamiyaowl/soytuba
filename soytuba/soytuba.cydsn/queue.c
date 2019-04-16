@@ -36,7 +36,7 @@ uint8_t queue_dequeue(queue_type_t* data) {
 
 queue_type_t* queue_get_enqueue_ptr() {
  if(queue_count() > QUEUE_SIZE_N - 2) {
-        return NULL;
+        return 0; // == NULL
     }
     return &arr[wr_start_ptr];
 }

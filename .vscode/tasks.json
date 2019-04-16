@@ -6,7 +6,7 @@
         {
             "label": "build-test",
             "type": "shell",
-            "command": "clang -g test/sound_test.c soytuba/soytuba.cydsn/shared_mem.c soytuba/soytuba.cydsn/sound.c -I soytuba/soytuba.cydsn/ -o sound_test.o"
+            "command": "clang -g test/sound_test.c soytuba/soytuba.cydsn/shared_mem.c soytuba/soytuba.cydsn/sound.c  soytuba/soytuba.cydsn/queue.c -I soytuba/soytuba.cydsn/ -o sound_test.o"
         }
     ]
 }
