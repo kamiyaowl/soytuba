@@ -26,6 +26,10 @@ void queue_init();
 uint8_t queue_enqueue(queue_type_t data);
 uint8_t queue_dequeue(queue_type_t* data);
 
+// enqueueで全コピーが入るとめっちゃ遅いので
+queue_type_t* queue_get_enqueue_ptr();
+void queue_enqueue_ptr();
+
 uint8_t queue_head(queue_type_t* data);
 uint8_t queue_tail(queue_type_t* data);
 

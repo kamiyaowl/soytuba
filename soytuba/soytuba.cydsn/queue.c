@@ -16,12 +16,12 @@ void queue_init() {
 }
 
 uint8_t queue_enqueue(queue_type_t data) {
-    if(queue_count() >= QUEUE_SIZE_N - 1) {
+    if(queue_count() > QUEUE_SIZE_N - 2) {
         return 0;
     }
     arr[wr_start_ptr] = data;
-    wr_start_ptr = (wr_start_ptr < QUEUE_SIZE_N - 1) ? wr_start_ptr + 1 : 0;
-    rd_end_ptr = (rd_end_ptr < QUEUE_SIZE_N - 1) ? rd_end_ptr + 1 : 0;
+    wr_start_ptr = (wr_start_ptr < QUEUE_SIZE_N - 2) ? wr_start_ptr + 1 : 0;
+    rd_end_ptr = (rd_end_ptr < QUEUE_SIZE_N - 2) ? rd_end_ptr + 1 : 0;
     return 1;
 }
 uint8_t queue_dequeue(queue_type_t* data) {
@@ -29,10 +29,22 @@ uint8_t queue_dequeue(queue_type_t* data) {
         return 0;
     }
     *data = arr[rd_start_ptr];
-    rd_start_ptr = (rd_start_ptr < QUEUE_SIZE_N - 1) ? rd_start_ptr + 1 : 0;
-    wr_end_ptr = (wr_end_ptr < QUEUE_SIZE_N - 1) ? wr_end_ptr + 1 : 0;
+    rd_start_ptr = (rd_start_ptr < QUEUE_SIZE_N - 2) ? rd_start_ptr + 1 : 0;
+    wr_end_ptr = (wr_end_ptr < QUEUE_SIZE_N - 2) ? wr_end_ptr + 1 : 0;
     return 1;
 }
+
+queue_type_t* queue_get_enqueue_ptr() {
+ if(queue_count() > QUEUE_SIZE_N - 2) {
+        return NULL;
+    }
+    return &arr[wr_start_ptr];
+}
+void queue_enqueue_ptr() {
+    wr_start_ptr = (wr_start_ptr < QUEUE_SIZE_N - 2) ? wr_start_ptr + 1 : 0;
+    rd_end_ptr = (rd_end_ptr < QUEUE_SIZE_N - 2) ? rd_end_ptr + 1 : 0;
+}
+
 
 uint8_t queue_head(queue_type_t* data) {
     if(queue_count() < 1) {
