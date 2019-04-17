@@ -6,12 +6,19 @@
 #include <stdint.h>
 
 // slider, pressureの入力値アベレージング最大値
-#define SOUND_AVERAGE_MAX (8)
+#define SOUND_AVERAGE_N (8)
 
 typedef struct tag_pitch_t {
     uint8_t block;
     uint16_t fnum;
 } pitch_t;
+
+typedef struct tag_average_t {
+    uint32_t ptr;
+    uint32_t buf[SOUND_AVERAGE_N];
+    uint32_t sum;
+    uint32_t dst;
+} average_t;
 
 // 多少無駄があるけどPROGMEM余っているので今はインデクシング速度優先。だめなら計算する
 // TODO: 使ってみた感じで範囲は決める

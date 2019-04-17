@@ -12,6 +12,7 @@ typedef struct tag_sound_setting_t {
     // スライダの無効領域 12bit
     uint16_t slider_low_limit;
     uint16_t slider_high_limit; 
+    uint16_t acc_tapping_mode_y;
 
 } sound_setting_t; 
 
@@ -34,7 +35,6 @@ typedef struct tag_shared_mem_t {
     sound_setting_t sound_setting; // 各種設定
 
     //status
-
 
 } shared_mem_t;
 volatile shared_mem_t shared_mem;
