@@ -45,11 +45,6 @@ void sound_update() {
     uint32_t pressure0 = average(shared_mem.adc_pressure[0], &pressure_average[0]);
     uint32_t pressure1 = average(shared_mem.adc_pressure[1], &pressure_average[1]);
     uint32_t pressure2 = average(shared_mem.adc_pressure[2], &pressure_average[2]);
-    // 領域判定
-    if((slider < shared_mem.sound_setting.slider_low_limit) ||
-       (slider > shared_mem.sound_setting.slider_high_limit)) {
-           return;
-    }
     // 遅いけど音階選択
     float ratio = (slider - shared_mem.sound_setting.slider_low_limit) / (float)(shared_mem.sound_setting.slider_high_limit - shared_mem.sound_setting.slider_low_limit);
     uint32_t pitch_index = (uint32_t)(ratio * PITCH_TABLE_N); // Accで増減するのでまだテーブルは引かない
@@ -61,8 +56,22 @@ void sound_update() {
     // ADC12bit(inverted) -> 音量4bit 適当に丸める
     uint8_t vol = ((~(pressure >> 8)) & 0x0f);
 
-    /***** IMUの結果でいい感じにやる *****/
     // 下方向を向いていたら(+現在トリガを引いていなければ) タッピングモードに切り替える
-    uint8_t is_tapping = (!vol && shared_mem.acc[1] > shared_mem.sound_setting.acc_tapping_mode_y) ? 1 : 0;
+    uint8_t is_tapping = ((vol > 0) && shared_mem.acc[1] > shared_mem.sound_setting.acc_tapping_mode_y) ? 1 : 0;
+    uint8_t slider_valid =  ((slider > shared_mem.sound_setting.slider_low_limit) &&
+                             (slider < shared_mem.sound_setting.slider_high_limit));
+    uint8_t vol_valid = vol > 0;
+    /***** Commanbd生成 *****/
+    if (is_tapping) {
+        // TODO: sliderの触った場所で即時音を出す。音量はvol依存。Note OffはSlider依存
+    } else {
+        // TODO: volの値に応じて音を出す。sliderの位置で音階は遷移するが、Note Offはvol依存
+    }
+
+    /***** IMUの結果でコマンド調整 *****/
+    // TODO: here
+
+    /***** 結果を反映 *****/
+    // TODO: here
 
 }
