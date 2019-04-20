@@ -22,8 +22,25 @@ typedef struct tag_average_t {
 
 // 多少無駄があるけどPROGMEM余っているので今はインデクシング速度優先。だめなら計算する
 // TODO: 使ってみた感じで範囲は決める
-#define PITCH_TABLE_N (36)
+#define PITCH_TABLE_N (64)
+#define PITCH_TABLE_SLIDER_MIN (12)
+#define PITCH_TABLE_SLIDER_MAX (48)
+
 static const pitch_t PITCH_TABLE[PITCH_TABLE_N] = {
+    {2, 	357},
+    {2, 	378},
+    {2, 	401},
+    {2, 	425},
+    {2, 	450},
+    {2, 	477},
+    {2,     505},
+    {2,     535},
+    {2, 	567},
+    {2,     601},
+    {2, 	637},
+    {2, 	674},
+
+    // 12: PITCH_TABLE_SLIDER_MIN
     {3, 	357},   // C2   130.8
     {3, 	378},   // C#2  138.6
     {3, 	401},   // D2   146.8
@@ -60,6 +77,20 @@ static const pitch_t PITCH_TABLE[PITCH_TABLE_N] = {
     {5,     601},
     {5, 	637},
     {5, 	674},
+    // 48: PITCH_TABLE_SLIDER_MAX
+
+    {6, 	357},
+    {6, 	378},
+    {6, 	401},
+    {6, 	425},
+    {6, 	450},
+    {6, 	477},
+    {6,     505},
+    {6,     535},
+    {6, 	567},
+    {6,     601},
+    {6, 	637},
+    {6, 	674},
 };
 void sound_init();
 void sound_update();

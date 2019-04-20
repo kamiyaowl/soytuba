@@ -13,7 +13,9 @@ typedef struct tag_sound_setting_t {
     uint16_t slider_low_limit;
     uint16_t slider_high_limit; 
     uint16_t acc_tapping_mode_y;
-
+    uint8_t tapping_vovol; // tappingモードのボリューム
+    uint32_t gyro_x_shift; // 32.8LSB/(deg/sec)を右nシフトしてピッチインデックスを作るか
+    uint32_t gyro_y_shift; // 32.8LSB/(deg/sec)を右nシフトしてピッチインデックスを作るか
 } sound_setting_t; 
 
 
@@ -36,7 +38,7 @@ typedef struct tag_shared_mem_t {
 
     //status
     uint8_t tapping; // タッピングモードならtrue
-    uint8_t has_noteon; // 前回のループで音を出した?
+    uint8_t has_keyon; // 前回のループで音を出した?
 } shared_mem_t;
 volatile shared_mem_t shared_mem;
 
