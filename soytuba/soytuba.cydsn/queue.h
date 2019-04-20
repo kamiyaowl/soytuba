@@ -6,17 +6,17 @@
 
 // なんかもうCだるいしめんどいのでQueueに直接書いちゃう
 typedef enum enum_sound_status {
-    KeyOff, KeyOn, Mute,
+    KeyOff = 0x0, KeyOn = 0x1, Mute = 0x2,
 } sound_status;
 
 typedef struct tag_sound_command_t {
     sound_status keyon; // 音を鳴らすかどうか
-    uint16_t vovol; // 音声設定
-    uint8_t  block; // オクターブ選択
-    uint16_t fnum;  // 周波数
+    uint16_t vovol; // 音声設定: 5bit
+    uint8_t  block; // オクターブ選択 3bit
+    uint16_t fnum;  // 周波数: 10bit
     uint8_t vol; // 音量 4bit
-    uint8_t vibrato; // ビブラード(DVB) 3bit
-    uint8_t interpolation; // 途中を補完するか 0=enable(default)
+    uint8_t xvb; // ビブラード(DVB) 3bit
+    uint8_t interpolation; // 途中を補完するか YMFのレジスタ上では負論理なので注意(DIR_MT): 1bit
 } sound_command_t;
 
 typedef sound_command_t queue_type_t; // c言語残念すぎでは

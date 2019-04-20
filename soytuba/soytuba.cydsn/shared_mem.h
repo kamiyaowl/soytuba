@@ -36,6 +36,7 @@ typedef struct tag_shared_mem_t {
 
     //status
     uint8_t tapping; // タッピングモードならtrue
+    uint8_t has_noteon; // 前回のループで音を出した?
 } shared_mem_t;
 volatile shared_mem_t shared_mem;
 

@@ -1,8 +1,6 @@
 #include "sound.h"
 
 // マルチスレッドにするならQueueに積む際にDCacheFlushしよう
-static sound_command_t* control;
-
 static average_t slider_average = {};
 static average_t pressure_average[SHARED_MEM_PRESSURE_N] = {};
 
@@ -34,11 +32,11 @@ void sound_init() {
     shared_mem.sound_setting.slider_low_limit = 0x100;
     shared_mem.sound_setting.slider_high_limit = 0x0f00;
     shared_mem.sound_setting.acc_tapping_mode_y = 3000; // 4096で1G
-
-    // control allocate
-    control = alloc_sound_control();
 }
 void sound_update() {
+    // control allocate
+    sound_command_t* control = alloc_sound_control();
+
     /***** ADC入力値アベレージング (range外でもやっておかないと値が突然飛ぶ) *****/
     // ADCの値は何もしてなければ最大値で反転しているので注意
     uint32_t slider    = average(shared_mem.adc_slider     , &slider_average);
@@ -50,8 +48,8 @@ void sound_update() {
             ((pressure0 < pressure1) ? pressure0 : pressure1):
             ((pressure0 < pressure2) ? pressure0 : pressure2)
         ); // は、何この可読性の低いゴミコード
-    // ADC12bit(inverted) -> 音量4bit 適当に丸める
-    uint8_t vol = ((~(pressure >> 8)) & 0x0f);
+    // ADC12bit(inverted) -> 音量5bit 適当に丸める
+    uint8_t vol = ((~(pressure >> 7)) & 0x1f);
     uint8_t vol_valid = vol > 0;
     // スライダの有効判定は、アベレージング以前の即値で行う(Issue #7)
     uint8_t slider_valid =  ((shared_mem.adc_slider > shared_mem.sound_setting.slider_low_limit) &&
@@ -62,22 +60,40 @@ void sound_update() {
 
     /***** Commanbd生成 *****/
     if (slider_valid) {
+        shared_mem.has_keyon = 0x1;
         // 遅いけど音階選択
         float ratio = (slider - shared_mem.sound_setting.slider_low_limit) / (float)(shared_mem.sound_setting.slider_high_limit - shared_mem.sound_setting.slider_low_limit);
         uint32_t pitch_index = (uint32_t)(ratio * PITCH_TABLE_N); // Accで増減するのでまだテーブルは引かない
+        //TODO: IMU Table shift
+
+        pitch_t p = PITCH_TABLE[pitch_index];
 
         if (is_tapping) {
-            // TODO: sliderの触った場所で即時音を出す。音量はvol依存。Note OffはSlider依存
+            shared_mem.tapping = 0x1;
+            // sliderの触った場所で即時音を出す。音量はvol依存。Note OffはSlider依存
+            control->keyon = 0x1;
+            control->interpolation = 0x1;
+            control->block = p.block;
+            control->fnum = p.fnum;
+            control->vovol = 0x54; // volによらずに適当に出す
         } else {
-            // TODO: volの値に応じて音を出す。sliderの位置で音階は遷移するが、Note Offはvol依存
+            // volの値に応じて音を出す。sliderの位置で音階は遷移するが、Note Offはvol依存
+            shared_mem.tapping = 0x0;
+            control->keyon = 0x1;
+            control->interpolation = 0x1;
+            control->block = p.block;
+            control->fnum = p.fnum;
+            control->vovol = vol;
         }
+
+        /***** IMUの結果でコマンド調整 *****/
+        // TODO: here
+    } else {
+        // Note Off
+        control->keyon = 0x0;
+        shared_mem.has_keyon = 0x0;
     }
-    
-    /***** IMUの結果でコマンド調整 *****/
-    // TODO: here
 
     /***** 結果を反映 *****/
-    // TODO: here
-    shared_mem.tapping = is_tapping;
-
+    queue_enqueue_ptr();
 }

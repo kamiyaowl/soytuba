@@ -20,5 +20,7 @@ void shared_mem_init() {
     shared_mem.led[2] = 0;
 
     shared_mem.tapping = 0;
+    shared_mem.has_keyon = 0;
+
     shared_mem_dma_init();
 }
