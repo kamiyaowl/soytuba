@@ -35,7 +35,7 @@ typedef struct tag_shared_mem_t {
     sound_setting_t sound_setting; // 各種設定
 
     //status
-
+    uint8_t tapping; // タッピングモードならtrue
 } shared_mem_t;
 volatile shared_mem_t shared_mem;
 
