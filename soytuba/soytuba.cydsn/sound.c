@@ -86,8 +86,8 @@ void sound_update() {
             }
         }
 
-        // IMU Vibrato
-        // TODO
+        // IMU Shake/Vibrato
+        // TODO: いまは必要ない
 
         // 一応境界チェックもしておく
         int32_t index = pitch_index + pitch_shift_status;
