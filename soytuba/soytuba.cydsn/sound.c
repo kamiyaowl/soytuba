@@ -97,8 +97,8 @@ void sound_update() {
         // タッピングの有無で音の鳴らし方を変える
         if (is_tapping) {
             // タップされた瞬間に音を出してスライドなどは無視。スライダから話せば音は止まる
+            shared_mem.tapping = 0x1;
             if (has_trigger) {
-                shared_mem.tapping = 0x1;
                 // sliderの触った場所で即時音を出す。音量はvol依存。Note OffはSlider依存
                 control->keyon = 0x1;
                 control->interpolation = 0x0; // 連続しない
@@ -106,17 +106,25 @@ void sound_update() {
                 control->fnum = p.fnum;
                 control->vol = vol;
                 queue_enqueue_ptr();
+            } else {
+                // 一度鳴らしたら何もしない（スライダから手を話したらKeyOff)
             }
         } else {
             // volの値に応じて音を出す(常時コマンド発行)
             // sliderの位置で音階は遷移するが、Note Offはpressureを切ったとき
             shared_mem.tapping = 0x0;
-            control->keyon = 0x1;
-            control->interpolation = 0x1; // 音の補完もついてる
-            control->block = p.block;
-            control->fnum = p.fnum;
-            control->vol = vol; // pressure押す力が弱ければ音が消える
-            queue_enqueue_ptr();
+            if (!vol_valid) {
+                control->keyon = 0x0;
+                shared_mem.has_keyon = 0x0;
+                queue_enqueue_ptr();
+            } else {
+                control->keyon = 0x1;
+                control->interpolation = 0x1; // 音の補完もついてる
+                control->block = p.block;
+                control->fnum = p.fnum;
+                control->vol = vol; // pressure押す力が弱ければ音が消える
+                queue_enqueue_ptr();
+            }
         }
     } else {
         if (shared_mem.tapping) {
