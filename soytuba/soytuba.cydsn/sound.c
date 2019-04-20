@@ -57,7 +57,7 @@ void sound_update() {
     uint8_t vol = ((~(pressure >> 8)) & 0x0f);
 
     // 下方向を向いていたら(+現在トリガを引いていなければ) タッピングモードに切り替える
-    uint8_t is_tapping = ((vol > 0) && shared_mem.acc[1] > shared_mem.sound_setting.acc_tapping_mode_y) ? 1 : 0;
+    uint8_t is_tapping = ((vol == 0) && shared_mem.acc[1] > shared_mem.sound_setting.acc_tapping_mode_y) ? 1 : 0;
     uint8_t slider_valid =  ((slider > shared_mem.sound_setting.slider_low_limit) &&
                              (slider < shared_mem.sound_setting.slider_high_limit));
     uint8_t vol_valid = vol > 0;

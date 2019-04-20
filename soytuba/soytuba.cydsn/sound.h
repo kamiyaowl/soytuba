@@ -6,7 +6,7 @@
 #include <stdint.h>
 
 // slider, pressureの入力値アベレージング最大値
-#define SOUND_AVERAGE_N (8)
+#define SOUND_AVERAGE_N (4)
 
 typedef struct tag_pitch_t {
     uint8_t block;
