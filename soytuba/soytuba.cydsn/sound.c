@@ -132,7 +132,6 @@ void sound_update() {
                 queue_enqueue_ptr();
             } else {
                 // 特にコマンドは発行しない
-                return;
             }
         }
     }

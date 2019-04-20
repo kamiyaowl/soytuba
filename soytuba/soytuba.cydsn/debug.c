@@ -7,14 +7,19 @@ void debug_init() {
     UART_DEBUG_Start();
 }
 void debug_print(const char* str){
+#ifndef DEBUG_PRINT_DISABLE
     UART_DEBUG_PutString(str);
+#endif
 }
 void debug_println(const char* str){
+#ifndef DEBUG_PRINT_DISABLE
     UART_DEBUG_PutString(str);
     UART_DEBUG_PutString("\r\n");
+#endif
 }
 // 遅い
 void debug_print_int16(const char* name, int16_t src){
+#ifndef DEBUG_PRINT_DISABLE
     UART_DEBUG_PutString(name);
     uint16_t data;
     if (src > -1) {
@@ -44,9 +49,11 @@ void debug_print_int16(const char* name, int16_t src){
         UART_DEBUG_PutChar('0');
     }
     UART_DEBUG_PutString("\r\n");
+#endif
 }
 
 void debug_print_hex(const char* name, uint32_t data){
+#ifndef DEBUG_PRINT_DISABLE
     UART_DEBUG_PutString(name);
     UART_DEBUG_PutString(": 0x");
     
@@ -56,6 +63,7 @@ void debug_print_hex(const char* name, uint32_t data){
         UART_DEBUG_PutChar(c);
     }
     UART_DEBUG_PutString("\r\n");
+#endif
 }
 void debug_count(){
     shared_mem.counter++;
