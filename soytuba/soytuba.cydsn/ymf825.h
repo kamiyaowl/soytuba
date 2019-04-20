@@ -2,6 +2,7 @@
 #define YMF825_H
 
 #include "project.h"
+#include "queue.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // SPI porting
@@ -32,10 +33,8 @@ inline void ymf825_spi_init() {
 
 void ymf825_set_tone(void);
 void ymf825_set_ch(void);
-void ymf825_keyon2(uint16_t fnum);
-void ymf825_keyoff(void);
 
 void ymf825_init();
-void ymf825_update();
+void ymf825_update(uint8_t flush_all);
 
 #endif

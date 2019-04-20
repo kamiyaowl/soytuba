@@ -2,33 +2,37 @@
 
 void ymf825_init(void) {
     ymf825_spi_init();
-    
-   ymf825_spi_write_reg( 0x1D, 0x0 ); // 5V
-   ymf825_spi_write_reg( 0x02, 0x0E );
-   ymf825_delay(1);
-   ymf825_spi_write_reg( 0x00, 0x01 );//CLKEN
-   ymf825_spi_write_reg( 0x01, 0x00 ); //AKRST
-   ymf825_spi_write_reg( 0x1A, 0xA3 );
-   ymf825_delay(1);
-   ymf825_spi_write_reg( 0x1A, 0x00 );
-   ymf825_delay(30);
-   ymf825_spi_write_reg( 0x02, 0x04 );//AP1,AP3
-   ymf825_delay(1);
-   ymf825_spi_write_reg( 0x02, 0x00 );
-   //add
-   ymf825_spi_write_reg( 0x19, 0xF0 );//MASTER VOL
-   ymf825_spi_write_reg( 0x1B, 0x3F );//interpolation
-   ymf825_spi_write_reg( 0x14, 0x00 );//interpolation
-   ymf825_spi_write_reg( 0x03, 0x01 );//Analog Gain
-   
-   ymf825_spi_write_reg( 0x08, 0xF6 );
-   ymf825_delay(21);
-   ymf825_spi_write_reg( 0x08, 0x00 );
-   ymf825_spi_write_reg( 0x09, 0xF8 );
-   ymf825_spi_write_reg( 0x0A, 0x00 );
-   
-   ymf825_spi_write_reg( 0x17, 0x40 );//MS_S
-   ymf825_spi_write_reg( 0x18, 0x00 );
+
+    ymf825_spi_write_reg( 0x1D, 0x0 ); // 5V
+    ymf825_spi_write_reg( 0x02, 0x0E );
+    ymf825_delay(1);
+    ymf825_spi_write_reg( 0x00, 0x01 );//CLKEN
+    ymf825_spi_write_reg( 0x01, 0x00 ); //AKRST
+    ymf825_spi_write_reg( 0x1A, 0xA3 );
+    ymf825_delay(1);
+    ymf825_spi_write_reg( 0x1A, 0x00 );
+    ymf825_delay(30);
+    ymf825_spi_write_reg( 0x02, 0x04 );//AP1,AP3
+    ymf825_delay(1);
+    ymf825_spi_write_reg( 0x02, 0x00 );
+    //add
+    ymf825_spi_write_reg( 0x19, 0xF0 );//MASTER VOL
+    ymf825_spi_write_reg( 0x1B, 0x3F );//interpolation
+    ymf825_spi_write_reg( 0x14, 0x00 );//interpolation
+    ymf825_spi_write_reg( 0x03, 0x01 );//Analog Gain
+
+    ymf825_spi_write_reg( 0x08, 0xF6 );
+    ymf825_delay(21);
+    ymf825_spi_write_reg( 0x08, 0x00 );
+    ymf825_spi_write_reg( 0x09, 0xF8 );
+    ymf825_spi_write_reg( 0x0A, 0x00 );
+
+    ymf825_spi_write_reg( 0x17, 0x40 );//MS_S
+    ymf825_spi_write_reg( 0x18, 0x00 );
+
+    // 叩いておく
+    ymf825_set_tone();
+    ymf825_set_ch();
 }
 
 void ymf825_set_tone(void){
@@ -92,50 +96,22 @@ void ymf825_set_ch(void){
    ymf825_spi_write_reg( 0x13, 0x00 );// FRAC  
 }
 
-void ymf825_keyon(uint8_t fnumh, uint8_t fnuml){
-   ymf825_spi_write_reg( 0x0B, 0x00 );//voice num
-   ymf825_spi_write_reg( 0x0C, 0x54 );//vovol
-   ymf825_spi_write_reg( 0x0D, fnumh );//fnum
-   ymf825_spi_write_reg( 0x0E, fnuml );//fnum
-   ymf825_spi_write_reg( 0x0F, 0x40 );//keyon = 1  
-}
-void ymf825_keyon2(uint16_t fnum){
-    ymf825_keyon((fnum >> 8) & 0xff, fnum & 0xff);
-}
 
-
-void ymf825_keyoff(void){
-   ymf825_spi_write_reg( 0x0F, 0x00 );//keyon = 0
-}
-
-
-void ymf825_update() {
-    // TODO: sound_updateがshared_memに書いた値を使って音を鳴らす
-    // TEST
-  ymf825_keyon(0x14,0x65);
-  ymf825_delay(100);
-  ymf825_keyoff();
-  ymf825_delay(100);
-  ymf825_keyon(0x1c,0x11);
-  ymf825_delay(100);
-  ymf825_keyoff();
-  ymf825_delay(100);
-  ymf825_keyon(0x1c,0x42);
-  ymf825_delay(100);
-  ymf825_keyoff();
-  ymf825_delay(100);
-  ymf825_keyon(0x1c,0x5d);
-  ymf825_delay(100);
-  ymf825_keyoff();
-  ymf825_delay(100);
-  ymf825_keyon(0x24,0x17);
-  ymf825_delay(100);
-  ymf825_keyoff();
-  ymf825_delay(100);
-  ymf825_keyon(0x24,0x17);
-  ymf825_delay(500);
-  ymf825_keyon(0x14,0x65);
-  ymf825_delay(500);
-  ymf825_keyoff();
-  ymf825_delay(100);
+volatile sound_command_t command;
+void ymf825_update(uint8_t flush_all) {
+    // sound_updateがqueueに書いた値を使って音を鳴らす
+    while (queue_dequeue(&command)) {
+       if (!command.keyon) {
+           ymf825_spi_write_reg( 0x0f, 0x00 );//keyon = 0
+       } else {
+           ymf825_spi_write_reg(0x0b, 0x00); // 0,0,0,0,CRGD_VNO[4]: 複数音は今はサポートしない
+           ymf825_spi_write_reg(0x0c, 0x54 );//vovol
+           ymf825_spi_write_reg(0x0d, ((command.fnum >> 4) & 0x70) | (command.block & 0x07)); // 0,fnum[9:7], block[2:0]
+           ymf825_spi_write_reg(0x0e, command.fnum & 0x7f); // 0,fnum[6:0]
+           ymf825_spi_write_reg(0x10, (command.vol & 0x1f) << 2) | (command.interpolation ? 0x0 : 0x1)); // 0,chvol[4:0], 0, DIR_CV
+           ymf825_spi_write_reg(0x0f, 0x40 );//keyon = 1  
+       }
+       // 引数でqueue emptyになるまでやるか変更できる
+       if (!flush_all) break; 
+    }
 }

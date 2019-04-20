@@ -25,7 +25,7 @@ typedef struct tag_average_t {
 #define PITCH_TABLE_N (64)
 #define PITCH_TABLE_SLIDER_MIN (12)
 #define PITCH_TABLE_SLIDER_MAX (48)
-
+#define PITCH_TABLE_SLIDER_RANGE (PITCH_TABLE_SLIDER_MAX - PITCH_TABLE_SLIDER_MIN)
 static const pitch_t PITCH_TABLE[PITCH_TABLE_N] = {
     {2, 	357},
     {2, 	378},

@@ -15,13 +15,7 @@ void init() {
     led_init();
     bmi160_init();
     sound_init();
-    
-    // TODO: YMF825の音色調整、切り替え
     ymf825_init();
-    ymf825_set_tone();
-    ymf825_set_ch();
-
-    
  }
 int main(void) {
     init();
@@ -30,10 +24,10 @@ int main(void) {
     for(;;) {
         debug_count();
         analog_in_update();
-        led_update();
         bmi160_update();
         sound_update();
-        ymf825_update(); // sound_updateで来たメッセージを音にして処理
+        ymf825_update(0x1); // sound_updateで来たメッセージを音にして処理
+        led_update();
         
         // test
         debug_print_hex("slider", shared_mem.adc_slider);

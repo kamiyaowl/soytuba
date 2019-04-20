@@ -1,9 +1,9 @@
 #include "sound.h"
 
 // マルチスレッドにするならQueueに積む際にDCacheFlushしよう
-volatile average_t slider_average = {};
-volatile average_t pressure_average[SHARED_MEM_PRESSURE_N] = {};
-volatile int32_t pitch_shift_status = 0; // 現在のピッチシフト数
+static average_t slider_average = {};
+static average_t pressure_average[SHARED_MEM_PRESSURE_N] = {};
+static int32_t pitch_shift_status = 0; // 現在のピッチシフト数
 
 //  入力値の移動平均を計算します
 uint32_t average(uint32_t src, average_t* ave) {
@@ -32,7 +32,7 @@ void sound_init() {
     // TODO: 領域は現物で変更可能性が高い
     shared_mem.sound_setting.slider_low_limit = 0x100;
     shared_mem.sound_setting.slider_high_limit = 0x0f00;
-    shared_mem.sound_setting.acc_tapping_mode_y = 3000; // 4096で1G
+    shared_mem.sound_setting.acc_tapping_mode_y = 3500; // 4096で1G
     shared_mem.sound_setting.tapping_vovol = 0x54;
     shared_mem.sound_setting.gyro_x_shift = 9;
     shared_mem.sound_setting.gyro_y_shift = 9;
@@ -58,9 +58,8 @@ void sound_update() {
     // スライダの有効判定は、アベレージング以前の即値で行う(Issue #7)
     uint8_t slider_valid =  ((shared_mem.adc_slider > shared_mem.sound_setting.slider_low_limit) &&
                              (shared_mem.adc_slider < shared_mem.sound_setting.slider_high_limit));
-    // 下方向を向いていたら(+現在トリガを引いていなければ) タッピングモードに切り替える
+    // 下方向を向いていたらタッピングモードに切り替える
     uint8_t is_tapping = ((!vol_valid) && shared_mem.acc[1] > shared_mem.sound_setting.acc_tapping_mode_y) ? 1 : 0;
-
 
     /***** Commanbd生成 *****/
     if (slider_valid) {
@@ -97,28 +96,45 @@ void sound_update() {
 
         // タッピングの有無で音の鳴らし方を変える
         if (is_tapping) {
-            shared_mem.tapping = 0x1;
-            // sliderの触った場所で即時音を出す。音量はvol依存。Note OffはSlider依存
-            control->keyon = 0x1;
-            control->interpolation = 0x0; // 連続しない
-            control->block = p.block;
-            control->fnum = p.fnum;
-            control->vovol = shared_mem.sound_setting.tapping_vovol; // volによらずに適当に出す
+            // タップされた瞬間に音を出してスライドなどは無視。スライダから話せば音は止まる
+            if (has_trigger) {
+                shared_mem.tapping = 0x1;
+                // sliderの触った場所で即時音を出す。音量はvol依存。Note OffはSlider依存
+                control->keyon = 0x1;
+                control->interpolation = 0x0; // 連続しない
+                control->block = p.block;
+                control->fnum = p.fnum;
+                control->vol = vol;
+                queue_enqueue_ptr();
+            }
         } else {
-            // volの値に応じて音を出す。sliderの位置で音階は遷移するが、Note Offはvol依存
+            // volの値に応じて音を出す(常時コマンド発行)
+            // sliderの位置で音階は遷移するが、Note Offはpressureを切ったとき
             shared_mem.tapping = 0x0;
             control->keyon = 0x1;
             control->interpolation = 0x1; // 音の補完もついてる
             control->block = p.block;
             control->fnum = p.fnum;
-            control->vovol = vol; // pressure押す力が弱ければ音が消える
+            control->vol = vol; // pressure押す力が弱ければ音が消える
+            queue_enqueue_ptr();
         }
     } else {
-        // Note Off
-        control->keyon = 0x0;
-        shared_mem.has_keyon = 0x0;
+        if (shared_mem.tapping) {
+            // Note Off
+            control->keyon = 0x0;
+            shared_mem.has_keyon = 0x0;
+            queue_enqueue_ptr();
+        } else {
+            // タッピングではない場合、Pressureを切った場合に音を止める
+            if (!vol_valid) {
+                control->keyon = 0x0;
+                shared_mem.has_keyon = 0x0;
+                queue_enqueue_ptr();
+            } else {
+                // 特にコマンドは発行しない
+                return;
+            }
+        }
     }
 
-    /***** 結果を反映 *****/
-    queue_enqueue_ptr();
 }
