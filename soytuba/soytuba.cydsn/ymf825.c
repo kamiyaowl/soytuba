@@ -108,7 +108,7 @@ void ymf825_update(uint8_t flush_all) {
            ymf825_spi_write_reg(0x0c, 0x54 );//vovol
            ymf825_spi_write_reg(0x0d, ((command.fnum >> 4) & 0x70) | (command.block & 0x07)); // 0,fnum[9:7], block[2:0]
            ymf825_spi_write_reg(0x0e, command.fnum & 0x7f); // 0,fnum[6:0]
-           ymf825_spi_write_reg(0x10, (command.vol & 0x1f) << 2) | (command.interpolation ? 0x0 : 0x1)); // 0,chvol[4:0], 0, DIR_CV
+           ymf825_spi_write_reg(0x10, ((command.vol & 0x1f) << 2) | (command.interpolation ? 0x0 : 0x1)); // 0,chvol[4:0], 0, DIR_CV
            ymf825_spi_write_reg(0x0f, 0x40 );//keyon = 1  
        }
        // 引数でqueue emptyになるまでやるか変更できる
